@@ -754,7 +754,7 @@ int mongo_connection_authenticate_saslstart(mongo_con_manager *manager, mongo_co
 	char          *data_buffer;
 	char          *ptr;
 	char          *smechanism;
-	double         ok;
+    int32_t       ok;
 	char          *errmsg;
 
 	mongo_manager_log(manager, MLOG_CON, MLOG_INFO, "connection_authenticate_sasl: Starting SASL authentication process to '%s'", con->hash);
@@ -773,7 +773,7 @@ int mongo_connection_authenticate_saslstart(mongo_con_manager *manager, mongo_co
 	/* Find data fields */
 	ptr = data_buffer + sizeof(int32_t); /* Skip the length */
 
-	if (bson_find_field_as_double(ptr, "ok", &ok)) {
+	if (bson_find_field_as_int32(ptr, "ok", &ok)) {
 		if (ok > 0) {
 			mongo_manager_log(manager, MLOG_CON, MLOG_INFO, "SASL request successful");
 		} else {
@@ -806,7 +806,7 @@ int mongo_connection_authenticate_saslcontinue(mongo_con_manager *manager, mongo
 	mcon_str      *packet;
 	char          *data_buffer;
 	char          *ptr;
-	double         ok;
+    int32_t       ok;
 	char          *errmsg;
 	int32_t       out_conversation_id;
 
@@ -822,7 +822,7 @@ int mongo_connection_authenticate_saslcontinue(mongo_con_manager *manager, mongo
 	/* Find data fields */
 	ptr = data_buffer + sizeof(int32_t); /* Skip the length */
 
-	if (bson_find_field_as_double(ptr, "ok", &ok)) {
+	if (bson_find_field_as_int32(ptr, "ok", &ok)) {
 		if (ok > 0) {
 			mongo_manager_log(manager, MLOG_CON, MLOG_INFO, "SASL continue successful");
 		} else {
